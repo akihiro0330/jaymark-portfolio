@@ -49,7 +49,7 @@ export default function Navbar() {
               hover:opacity-70
             "
           >
-            JAY<span className="text-blue-400">.</span>
+            JAY MARK<span className="text-blue-400">.</span>
           </a>
 
           {/* Desktop navigation */}

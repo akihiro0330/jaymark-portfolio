@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowDown, Mail } from "lucide-react";
+import { ArrowDown, Download, Mail } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 import Button from "../ui/Button";
 
@@ -61,7 +61,7 @@ export default function Hero() {
           {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="
               mx-auto
@@ -85,15 +85,24 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.5 }}
             className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <Button>
-              View My Work
-              <ArrowDown size={16} />
-            </Button>
+            {/* View My Work */}
+            <a href="#projects">
+              <Button>
+                View My Work
+                <ArrowDown size={16} />
+              </Button>
+            </a>
 
-            <Button variant="secondary">
-              Get In Touch
-              <Mail size={16} />
-            </Button>
+            {/* Download CV */}
+            <a
+              href="/Jay_Mark_Bolalaque_CV.pdf"
+              download="Jay_Mark_Bolalaque_CV.pdf"
+            >
+              <Button variant="secondary">
+                Download CV
+                <Download size={16} />
+              </Button>
+            </a>
           </motion.div>
 
           {/* Social links */}
@@ -103,8 +112,11 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="mt-10 flex justify-center gap-3"
           >
+            {/* GitHub */}
             <a
-              href="#"
+              href="https://github.com/akihiro0330"
+              target="_blank"
+              rel="noreferrer"
               aria-label="GitHub"
               className="
                 flex
@@ -128,8 +140,11 @@ export default function Hero() {
               <FaGithub size={18} />
             </a>
 
+            {/* LinkedIn */}
             <a
-              href="#"
+              href="https://www.linkedin.com/in/jay-mark-bolalaque-/"
+              target="_blank"
+              rel="noreferrer"
               aria-label="LinkedIn"
               className="
                 flex
@@ -153,6 +168,7 @@ export default function Hero() {
               <FaLinkedinIn size={18} />
             </a>
 
+            {/* Email */}
             <a
               href="#contact"
               aria-label="Email"

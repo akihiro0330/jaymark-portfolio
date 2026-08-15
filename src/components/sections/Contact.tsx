@@ -385,13 +385,7 @@ export default function Contact() {
             sm:text-left
           "
         >
-          <p className="text-xs text-white/20">
-            © {new Date().getFullYear()} Jay Mark Bolalaque. All rights reserved.
-          </p>
 
-          <p className="text-xs text-white/20">
-            Designed & built with React, TypeScript & Tailwind CSS.
-          </p>
         </motion.div>
       </div>
     </section>

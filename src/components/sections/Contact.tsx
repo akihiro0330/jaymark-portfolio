@@ -363,30 +363,6 @@ export default function Contact() {
             </div>
           </GlassCard>
         </motion.div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: 0.7,
-            delay: 0.3,
-          }}
-          className="
-            mt-16
-            flex
-            flex-col
-            items-center
-            justify-between
-            gap-4
-            text-center
-            sm:flex-row
-            sm:text-left
-          "
-        >
-
-        </motion.div>
       </div>
     </section>
   );

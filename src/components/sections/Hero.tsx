@@ -59,24 +59,24 @@ export default function Hero() {
           </motion.h1>
 
           {/* Description */}
-          <motion.p
+        <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="
-              mx-auto
-              mt-8
-              max-w-2xl
-              text-base
-              leading-8
-              text-white/50
-              sm:text-lg
+                mx-auto
+                mt-8
+                max-w-2xl
+                text-base
+                leading-8
+                text-white/50
+                sm:text-lg
             "
-          >
-            I'm Jay Mark, a Computer Science professional passionate about
-            software development, AI automation, healthcare technology,
-            and data-driven solutions.
-          </motion.p>
+        >
+            I'm Jay Mark, a Computer Science professional building software,
+            automation, and data-driven solutions at the intersection of
+            technology and real-world problems.
+        </motion.p>
 
           {/* Buttons */}
           <motion.div

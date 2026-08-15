@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@import "@fontsource/inter";
+
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Inter", system-ui, sans-serif;
+  color-scheme: dark;
+
+  --background: #050816;
+  --foreground: #ffffff;
+
+  --muted: #94a3b8;
+
+  --primary: #2563eb;
+  --secondary: #7c3aed;
+
+  --glass: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.12);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(80px, -40px, 0) scale(1.1);
+  }
+}
+
+@keyframes aurora-reverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-80px, 40px, 0) scale(1.1);
+  }
+}
+
+@theme {
+  --animate-aurora: aurora 12s ease-in-out infinite;
+  --animate-aurora-reverse: aurora-reverse 15s ease-in-out infinite;
+}

@@ -24,7 +24,7 @@ const projects: Project[] = [
     title: "Automated File Sorting System",
     category: "Desktop Application",
     description:
-      "A productivity-focused application designed to automatically organize files into structured folders based on their type and other configurable rules.",
+      "A productivity-focused desktop application that automatically organizes files into structured folders based on file types and configurable rules, reducing repetitive manual file management.",
     technologies: [
       "Python",
       "Automation",
@@ -32,26 +32,24 @@ const projects: Project[] = [
       "UI/UX",
     ],
     featured: true,
-    github: "#",
   },
   {
     title: "QR Attendance System",
     category: "Mobile Application",
     description:
-      "A planned attendance management solution using QR codes to streamline attendance recording and reduce manual data entry.",
+      "A planned attendance management solution designed to streamline attendance recording through QR-based check-ins while reducing manual data entry.",
     technologies: [
       "Flutter",
       "Firebase",
       "QR Code",
       "Mobile Development",
     ],
-    github: "#",
   },
   {
     title: "Student Management System",
     category: "Web Application",
     description:
-      "A database-driven application designed to manage student information, records, and related academic data.",
+      "A database-driven web application designed to manage student information, academic records, and related data through a structured management interface.",
     technologies: [
       "PHP",
       "MySQL",
@@ -59,19 +57,17 @@ const projects: Project[] = [
       "CSS",
       "JavaScript",
     ],
-    github: "#",
   },
   {
     title: "Travel Booking System",
     category: "Database Project",
     description:
-      "A relational database project focused on organizing travel bookings, customer information, destinations, and related transactions.",
+      "A relational database project focused on organizing travel bookings, customer information, destinations, and related transactions using structured SQL data models.",
     technologies: [
       "MySQL",
       "SQL",
       "Database Design",
     ],
-    github: "#",
   },
 ];
 
@@ -91,7 +87,10 @@ export default function Projects() {
               key={project.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
+              viewport={{
+                once: true,
+                amount: 0.15,
+              }}
               transition={{
                 duration: 0.6,
                 delay: index * 0.08,
@@ -100,48 +99,31 @@ export default function Projects() {
             >
               <GlassCard
                 className="
-                  group
-                  relative
                   h-full
-                  overflow-hidden
-                  p-8
-                  transition-all
-                  duration-500
-                  hover:-translate-y-1
-                  hover:border-white/20
-                  hover:bg-white/[0.07]
+                  p-7
+                  sm:p-8
                 "
               >
-                {/* Decorative glow */}
-                <div
-                  aria-hidden="true"
-                  className="
-                    pointer-events-none
-                    absolute
-                    -right-20
-                    -top-20
-                    h-48
-                    w-48
-                    rounded-full
-                    bg-blue-500/10
-                    blur-3xl
-                    transition-all
-                    duration-500
-                    group-hover:bg-blue-500/20
-                  "
-                />
-
                 <div
                   className={
                     project.featured
-                      ? "relative grid gap-10 md:grid-cols-[1.2fr_0.8fr] md:items-center"
+                      ? "relative grid gap-10 md:grid-cols-[1.15fr_0.85fr] md:items-center"
                       : "relative"
                   }
                 >
-                  {/* Project content */}
+                  {/* Project Content */}
                   <div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium uppercase tracking-[0.15em] text-blue-400">
+                    {/* Category + Featured */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span
+                        className="
+                          text-xs
+                          font-medium
+                          uppercase
+                          tracking-[0.16em]
+                          text-blue-400
+                        "
+                      >
                         {project.category}
                       </span>
 
@@ -170,14 +152,35 @@ export default function Projects() {
                       )}
                     </div>
 
-                    <h3 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                    {/* Title */}
+                    <h3
+                      className="
+                        mt-4
+                        text-2xl
+                        font-semibold
+                        tracking-tight
+                        text-white
+                        sm:text-3xl
+                      "
+                    >
                       {project.title}
                     </h3>
 
-                    <p className="mt-4 max-w-2xl text-sm leading-7 text-white/45 sm:text-base">
+                    {/* Description */}
+                    <p
+                      className="
+                        mt-4
+                        max-w-2xl
+                        text-sm
+                        leading-7
+                        text-white/45
+                        sm:text-base
+                      "
+                    >
                       {project.description}
                     </p>
 
+                    {/* Technologies */}
                     <div className="mt-6 flex flex-wrap gap-2">
                       {project.technologies.map((technology) => (
                         <span
@@ -191,6 +194,10 @@ export default function Projects() {
                             py-1.5
                             text-xs
                             text-white/55
+                            transition-colors
+                            duration-300
+                            group-hover:border-white/[0.14]
+                            group-hover:text-white/70
                           "
                         >
                           {technology}
@@ -198,65 +205,94 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    <div className="mt-8 flex flex-wrap gap-3">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="
-                            inline-flex
-                            items-center
-                            gap-2
-                            rounded-full
-                            border
-                            border-white/10
-                            bg-white/[0.05]
-                            px-4
-                            py-2.5
-                            text-sm
-                            text-white/70
-                            transition-all
-                            duration-300
-                            hover:bg-white/10
-                            hover:text-white
-                          "
-                        >
-                          <FaGithub size={16} />
-                          GitHub
-                          <ArrowUpRight size={14} />
-                        </a>
-                      )}
+                    {/* Project Links */}
+                    {(project.github || project.live) && (
+                      <div className="mt-8 flex flex-wrap gap-3">
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View ${project.title} on GitHub`}
+                            className="
+                              inline-flex
+                              items-center
+                              gap-2
+                              rounded-full
+                              border
+                              border-white/10
+                              bg-white/[0.05]
+                              px-4
+                              py-2.5
+                              text-sm
+                              text-white/70
+                              transition-all
+                              duration-300
+                              hover:-translate-y-0.5
+                              hover:border-white/20
+                              hover:bg-white/10
+                              hover:text-white
+                            "
+                          >
+                            <FaGithub size={16} />
+                            GitHub
+                            <ArrowUpRight size={14} />
+                          </a>
+                        )}
 
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="
-                            inline-flex
-                            items-center
-                            gap-2
-                            rounded-full
-                            bg-white
-                            px-4
-                            py-2.5
-                            text-sm
-                            font-medium
-                            text-black
-                            transition-all
-                            duration-300
-                            hover:bg-white/90
-                          "
-                        >
-                          <ExternalLink size={16} />
-                          Live Demo
-                        </a>
-                      )}
-                    </div>
+                        {project.live && (
+                          <a
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`View live demo of ${project.title}`}
+                            className="
+                              inline-flex
+                              items-center
+                              gap-2
+                              rounded-full
+                              bg-white
+                              px-4
+                              py-2.5
+                              text-sm
+                              font-medium
+                              text-black
+                              transition-all
+                              duration-300
+                              hover:-translate-y-0.5
+                              hover:bg-white/90
+                            "
+                          >
+                            <ExternalLink size={16} />
+                            Live Demo
+                          </a>
+                        )}
+                      </div>
+                    )}
+
+                    {/* No links message */}
+                    {!project.github && !project.live && (
+                      <div
+                        className="
+                          mt-8
+                          inline-flex
+                          items-center
+                          rounded-full
+                          border
+                          border-white/10
+                          bg-white/[0.03]
+                          px-4
+                          py-2.5
+                          text-xs
+                          text-white/35
+                        "
+                      >
+                        Project in development
+                      </div>
+                    )}
                   </div>
 
-                  {/* Visual project preview */}
+                  {/* Project Preview */}
                   <div
                     className="
                       relative
@@ -270,29 +306,88 @@ export default function Projects() {
                       md:block
                     "
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-transparent" />
+                    {/* Background Aurora */}
+                    <div
+                      className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-br
+                        from-blue-500/10
+                        via-purple-500/5
+                        to-transparent
+                        opacity-70
+                        transition-opacity
+                        duration-500
+                        group-hover:opacity-100
+                      "
+                    />
 
-                    <div className="absolute inset-5 rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                      <div className="flex gap-1.5">
-                        <span className="h-2 w-2 rounded-full bg-white/20" />
-                        <span className="h-2 w-2 rounded-full bg-white/20" />
-                        <span className="h-2 w-2 rounded-full bg-white/20" />
+                    {/* Window */}
+                    <div
+                      className="
+                        absolute
+                        inset-5
+                        overflow-hidden
+                        rounded-xl
+                        border
+                        border-white/10
+                        bg-white/[0.025]
+                      "
+                    >
+                      {/* Window Header */}
+                      <div
+                        className="
+                          flex
+                          items-center
+                          justify-between
+                          border-b
+                          border-white/5
+                          px-4
+                          py-3
+                        "
+                      >
+                        <div className="flex gap-1.5">
+                          <span className="h-2 w-2 rounded-full bg-white/20" />
+                          <span className="h-2 w-2 rounded-full bg-white/20" />
+                          <span className="h-2 w-2 rounded-full bg-white/20" />
+                        </div>
+
+                        <div className="h-2 w-16 rounded-full bg-white/5" />
                       </div>
 
-                      <div className="mt-6 space-y-3">
-                        <div className="h-3 w-2/3 rounded-full bg-white/10" />
-                        <div className="h-2 w-full rounded-full bg-white/5" />
-                        <div className="h-2 w-5/6 rounded-full bg-white/5" />
+                      {/* Window Content */}
+                      <div className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="h-3 w-24 rounded-full bg-white/10" />
+                          <div className="h-6 w-6 rounded-lg bg-blue-400/10" />
+                        </div>
 
-                        <div className="grid grid-cols-3 gap-2 pt-4">
-                          <div className="h-16 rounded-lg bg-white/5" />
-                          <div className="h-16 rounded-lg bg-white/5" />
-                          <div className="h-16 rounded-lg bg-white/5" />
+                        <div className="mt-5 space-y-2">
+                          <div className="h-2 w-full rounded-full bg-white/5" />
+                          <div className="h-2 w-5/6 rounded-full bg-white/5" />
+                          <div className="h-2 w-2/3 rounded-full bg-white/5" />
+                        </div>
+
+                        <div className="mt-5 grid grid-cols-3 gap-2">
+                          <div className="h-14 rounded-lg bg-white/[0.035] transition-colors duration-500 group-hover:bg-blue-400/[0.06]" />
+                          <div className="h-14 rounded-lg bg-white/[0.035] transition-colors duration-500 group-hover:bg-purple-400/[0.06]" />
+                          <div className="h-14 rounded-lg bg-white/[0.035] transition-colors duration-500 group-hover:bg-cyan-400/[0.06]" />
                         </div>
                       </div>
                     </div>
 
-                    <div className="absolute bottom-4 right-4 text-xs text-white/20">
+                    {/* Project Number */}
+                    <div
+                      className="
+                        absolute
+                        bottom-4
+                        right-4
+                        text-xs
+                        font-medium
+                        tracking-widest
+                        text-white/20
+                      "
+                    >
                       {String(index + 1).padStart(2, "0")}
                     </div>
                   </div>

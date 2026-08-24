@@ -42,8 +42,8 @@ const credentials: Credential[] = [
   {
     type: "certification",
     title: "Medical Biller Professional Certificate",
-    organization: "AAPC",
-    date: "2026",
+    organization: "American Academy of Professional Coders",
+    date: "February 2026",
     description:
       "Professional training covering medical billing fundamentals, claims workflows, insurance concepts, and healthcare revenue-cycle processes.",
     skills: [

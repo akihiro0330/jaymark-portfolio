@@ -95,7 +95,7 @@ export default function Hero() {
 
             {/* Download CV */}
             <a
-              href="/JAY-MARK-BOLALAQUE-PROFESSIONAL-CV.pdf"
+              href="\JAY-MARK-BOLALAQUE-PROFESSIONAL-CV.pdf"
               download="JAY-MARK-BOLALAQUE-PROFESSIONAL-CV.pdf"
             >
               <Button variant="secondary">

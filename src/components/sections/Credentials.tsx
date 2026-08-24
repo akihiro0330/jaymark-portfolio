@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import {
   Award,
   ExternalLink,
+  FileText,
   GraduationCap,
   ShieldCheck,
 } from "lucide-react";
@@ -16,7 +17,18 @@ type Credential = {
   date: string;
   description: string;
   skills: string[];
+
+  // Online verification link
   credentialUrl?: string;
+
+  // Local certificate PDF
+  certificateFile?: string;
+
+  // Certificate identifier
+  certificateId?: string;
+
+  // Optional expiration date
+  expiryDate?: string;
 };
 
 const credentials: Credential[] = [
@@ -42,8 +54,8 @@ const credentials: Credential[] = [
   {
     type: "certification",
     title: "Medical Biller Professional Certificate",
-    organization: "American Academy of Professional Coders",
-    date: "February 2026",
+    organization: "AAPC",
+    date: "2026",
     description:
       "Professional training covering medical billing fundamentals, claims workflows, insurance concepts, and healthcare revenue-cycle processes.",
     skills: [
@@ -54,6 +66,25 @@ const credentials: Credential[] = [
     ],
     credentialUrl:
       "https://coursera.org/verify/professional-cert/PI2EDR0WJNGJ",
+  },
+
+  {
+    type: "certification",
+    title: "HIPAA Compliance Training Program",
+    organization: "HIPAA Compliance Training",
+    date: "January 2026",
+    description:
+      "Compliance training covering HIPAA fundamentals, the Privacy Rule, the Security Rule, breach notification and enforcement, and HIPAA compliance best practices.",
+    skills: [
+      "HIPAA Compliance",
+      "Privacy Rule",
+      "Security Rule",
+      "Breach Notification",
+      "Healthcare Compliance",
+    ],
+    certificateFile: "/HIPAA-0029891.pdf",
+    certificateId: "HIPAA-0029891",
+    expiryDate: "January 2027",
   },
 
   {
@@ -120,10 +151,7 @@ const typeConfig = {
 
 export default function Credentials() {
   return (
-    <section
-      id="credentials"
-      className="relative px-6 py-32"
-    >
+    <section id="credentials" className="relative px-6 py-32">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
           eyebrow="Credentials"
@@ -143,6 +171,10 @@ export default function Credentials() {
           {credentials.map((credential, index) => {
             const config = typeConfig[credential.type];
             const Icon = config.icon;
+
+            const isVerified = Boolean(credential.credentialUrl);
+            const hasCertificate = Boolean(credential.certificateFile);
+            const hasCredentialFooter = isVerified || hasCertificate;
 
             return (
               <motion.div
@@ -237,7 +269,8 @@ export default function Credentials() {
                         gap-2
                       "
                     >
-                      {credential.credentialUrl && (
+                      {/* Externally verified credentials */}
+                      {isVerified && (
                         <span
                           className="
                             rounded-full
@@ -257,6 +290,32 @@ export default function Credentials() {
                         </span>
                       )}
 
+                      {/* PDF certificate */}
+                      {hasCertificate && !isVerified && (
+                        <span
+                          className="
+                            inline-flex
+                            items-center
+                            gap-1.5
+                            rounded-full
+                            border
+                            border-blue-400/20
+                            bg-blue-400/[0.06]
+                            px-3
+                            py-1.5
+                            text-xs
+                            font-medium
+                            uppercase
+                            tracking-[0.15em]
+                            text-blue-300/80
+                          "
+                        >
+                          <FileText size={11} />
+                          Certificate
+                        </span>
+                      )}
+
+                      {/* Date */}
                       <span
                         className="
                           rounded-full
@@ -276,6 +335,7 @@ export default function Credentials() {
 
                   {/* Main content */}
                   <div className="relative">
+                    {/* Credential Type */}
                     <p
                       className="
                         mt-6
@@ -289,6 +349,7 @@ export default function Credentials() {
                       {config.label}
                     </p>
 
+                    {/* Title */}
                     <h3
                       className="
                         mt-3
@@ -301,16 +362,12 @@ export default function Credentials() {
                       {credential.title}
                     </h3>
 
-                    <p
-                      className="
-                        mt-2
-                        text-sm
-                        text-white/40
-                      "
-                    >
+                    {/* Organization */}
+                    <p className="mt-2 text-sm text-white/40">
                       {credential.organization}
                     </p>
 
+                    {/* Description */}
                     <p
                       className="
                         mt-5
@@ -321,6 +378,37 @@ export default function Credentials() {
                     >
                       {credential.description}
                     </p>
+
+                    {/* HIPAA Certificate Details */}
+                    {credential.certificateId && (
+                      <div
+                        className="
+                          mt-5
+                          flex
+                          flex-wrap
+                          gap-x-6
+                          gap-y-2
+                          text-xs
+                          text-white/35
+                        "
+                      >
+                        <span>
+                          ID:{" "}
+                          <span className="text-white/55">
+                            {credential.certificateId}
+                          </span>
+                        </span>
+
+                        {credential.expiryDate && (
+                          <span>
+                            Expires:{" "}
+                            <span className="text-white/55">
+                              {credential.expiryDate}
+                            </span>
+                          </span>
+                        )}
+                      </div>
+                    )}
 
                     {/* Skills */}
                     <div
@@ -343,6 +431,11 @@ export default function Credentials() {
                             py-1.5
                             text-xs
                             text-white/55
+                            transition-colors
+                            duration-300
+                            hover:border-white/20
+                            hover:bg-white/[0.08]
+                            hover:text-white
                           "
                         >
                           {skill}
@@ -351,68 +444,120 @@ export default function Credentials() {
                     </div>
                   </div>
 
-                  {/* Verification footer */}
-                  {credential.credentialUrl && (
+                  {/* Bottom credential area */}
+                  {hasCredentialFooter && (
                     <div
                       className="
                         relative
                         mt-auto
                         flex
-                        items-center
-                        justify-between
+                        flex-col
                         gap-4
                         border-t
                         border-white/[0.07]
                         pt-6
+                        sm:flex-row
+                        sm:items-center
+                        sm:justify-between
                       "
                     >
-                      {/* Verified label */}
-                      <div
-                        className="
-                          flex
-                          items-center
-                          gap-2
-                          text-sm
-                          text-white/35
-                        "
-                      >
-                        <span
-                          className="
-                            h-1.5
-                            w-1.5
-                            shrink-0
-                            rounded-full
-                            bg-blue-400
-                          "
-                        />
+                      {/* Google / AAPC verification */}
+                      {isVerified && (
+                        <>
+                          <div
+                            className="
+                              flex
+                              items-center
+                              gap-2
+                              text-sm
+                              text-white/35
+                            "
+                          >
+                            <span
+                              className="
+                                h-1.5
+                                w-1.5
+                                shrink-0
+                                rounded-full
+                                bg-blue-400
+                              "
+                            />
 
-                        <span>
-                          Verified Credential
-                        </span>
-                      </div>
+                            <span>Verified Credential</span>
+                          </div>
 
-                      {/* Credential Link */}
-                      <a
-                        href={credential.credentialUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="
-                          inline-flex
-                          shrink-0
-                          items-center
-                          gap-2
-                          whitespace-nowrap
-                          text-sm
-                          text-white/50
-                          transition-colors
-                          duration-300
-                          hover:text-white
-                        "
-                      >
-                        View credential
+                          <a
+                            href={credential.credentialUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="
+                              inline-flex
+                              shrink-0
+                              items-center
+                              gap-2
+                              whitespace-nowrap
+                              text-sm
+                              text-white/50
+                              transition-colors
+                              duration-300
+                              hover:text-white
+                            "
+                          >
+                            View credential
+                            <ExternalLink size={15} />
+                          </a>
+                        </>
+                      )}
 
-                        <ExternalLink size={15} />
-                      </a>
+                      {/* HIPAA PDF certificate */}
+                      {hasCertificate && !isVerified && (
+                        <>
+                          <div
+                            className="
+                              flex
+                              items-center
+                              gap-2
+                              text-sm
+                              text-white/35
+                            "
+                          >
+                            <span
+                              className="
+                                h-1.5
+                                w-1.5
+                                shrink-0
+                                rounded-full
+                                bg-blue-400
+                              "
+                            />
+
+                            <span>
+                              Certificate ID: {credential.certificateId}
+                            </span>
+                          </div>
+
+                          <a
+                            href={credential.certificateFile}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="
+                              inline-flex
+                              shrink-0
+                              items-center
+                              gap-2
+                              whitespace-nowrap
+                              text-sm
+                              text-white/50
+                              transition-colors
+                              duration-300
+                              hover:text-white
+                            "
+                          >
+                            View certificate
+                            <ExternalLink size={15} />
+                          </a>
+                        </>
+                      )}
                     </div>
                   )}
                 </GlassCard>

@@ -7,11 +7,13 @@ import {
 type GlassCardProps = {
   children: ReactNode;
   className?: string;
+  contentClassName?: string;
 };
 
 export default function GlassCard({
   children,
   className = "",
+  contentClassName = "",
 }: GlassCardProps) {
   const [mousePosition, setMousePosition] = useState({
     x: 50,
@@ -23,8 +25,11 @@ export default function GlassCard({
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const x =
+      ((event.clientX - rect.left) / rect.width) * 100;
+
+    const y =
+      ((event.clientY - rect.top) / rect.height) * 100;
 
     setMousePosition({
       x,
@@ -97,7 +102,7 @@ export default function GlassCard({
         }}
       />
 
-      {/* Static mobile glass glow */}
+      {/* Static mobile glow */}
       <div
         aria-hidden="true"
         className="
@@ -114,7 +119,7 @@ export default function GlassCard({
         "
       />
 
-      {/* Soft inner highlight */}
+      {/* Inner border highlight */}
       <div
         aria-hidden="true"
         className="
@@ -131,7 +136,7 @@ export default function GlassCard({
         "
       />
 
-      {/* Content */}
+      {/* Card content */}
       <div
         className={`
           relative
@@ -142,6 +147,7 @@ export default function GlassCard({
           ${isHovered ? "scale-[1.005]" : "scale-100"}
           motion-reduce:transform-none
           motion-reduce:transition-none
+          ${contentClassName}
         `}
       >
         {children}

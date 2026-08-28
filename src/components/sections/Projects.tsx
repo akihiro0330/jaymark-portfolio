@@ -61,6 +61,32 @@ const projects: Project[] = [
   },
 
   {
+    title: "JM Digital",
+    category: "Business Website",
+    description:
+      "A production-ready business website created to showcase web and software development services, highlight previous work, and allow prospective clients to submit inquiries through a responsive contact experience.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Resend",
+      "Vercel",
+    ],
+    status: "Completed",
+    github: "https://github.com/akihiro0330/jm-digital",
+    live: "https://jm-digital-website.vercel.app/",
+    features: [
+      "Responsive business landing page",
+      "Services showcase",
+      "Portfolio presentation",
+      "Client inquiry form",
+      "Resend email integration",
+      "Production deployment on Vercel",
+    ],
+  },
+
+  {
     title: "Automated File Sorting System",
     category: "Desktop Application",
     description:

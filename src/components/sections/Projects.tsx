@@ -1,4 +1,5 @@
 import {
+  type ReactNode,
   useEffect,
   useState,
 } from "react";
@@ -25,6 +26,9 @@ import { FaGithub } from "react-icons/fa6";
 
 import SectionHeading from "../ui/SectionHeading";
 import GlassCard from "../ui/GlassCard";
+import {
+  useProjectTelemetry,
+} from "../../context/ProjectTelemetryContext";
 
 type ProjectStatus =
   | "In Development"
@@ -169,6 +173,100 @@ const projects: Project[] = [
   },
 
   {
+    title: "SSS Member Dashboard Redesign",
+    category: "Web Application / UI Redesign",
+    description:
+      "An independent redesign concept for the SSS member portal focused on clearer information hierarchy, responsive navigation, privacy controls, and a more accessible member experience across desktop and mobile devices.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Lucide React",
+      "Responsive Design",
+      "Vercel",
+    ],
+    status: "Prototype",
+    live: "https://sss-member-dashboard.vercel.app/",
+    expandableGallery: true,
+    features: [
+      "Responsive member dashboard",
+      "Contribution history and analytics",
+      "Loan information and eligibility UI",
+      "Benefits directory",
+      "Notification center",
+      "Member profile controls",
+      "SSS number privacy masking",
+      "Light and dark themes",
+      "Responsive mobile navigation",
+      "Desktop and mobile layouts",
+    ],
+    screenshots: [
+      {
+        src: "/projects/sss-dashboard/dashboard.png",
+        title: "Member Overview",
+        description:
+          "Redesigned desktop member dashboard presenting account standing, contributions, loans, and benefits at a glance.",
+      },
+      {
+        src: "/projects/sss-dashboard/contributions.png",
+        title: "Contributions",
+        description:
+          "Contribution history with yearly totals, posting status, monthly trends, and statement controls.",
+      },
+      {
+        src: "/projects/sss-dashboard/loans.png",
+        title: "Loans",
+        description:
+          "Loan dashboard presenting current standing, eligibility information, previous loans, and illustrative loan estimates.",
+      },
+      {
+        src: "/projects/sss-dashboard/benefits.png",
+        title: "Benefits",
+        description:
+          "Searchable benefits directory designed to make benefit programs and eligibility information easier to discover.",
+      },
+      {
+        src: "/projects/sss-dashboard/notifications.png",
+        title: "Notification Center",
+        description:
+          "Interactive notification drawer for contribution updates, account reminders, and service information.",
+      },
+      {
+        src: "/projects/sss-dashboard/profile.png",
+        title: "Member Profile",
+        description:
+          "Desktop member profile panel with account information, privacy preferences, security options, and theme controls.",
+      },
+      {
+        src: "/projects/sss-dashboard/mobile-dashboard.png",
+        title: "Mobile Dashboard",
+        description:
+          "Responsive mobile member overview with touch-friendly navigation and reorganized dashboard content.",
+      },
+      {
+        src: "/projects/sss-dashboard/mobile-dashboard-dark.png",
+        title: "Mobile Dark Mode",
+        description:
+          "Dark-theme mobile dashboard demonstrating adaptive colors and responsive component styling.",
+      },
+      {
+        src: "/projects/sss-dashboard/mobile-menu.png",
+        title: "Mobile Member Menu",
+        description:
+          "Touch-optimized account menu with member information, security, preferences, appearance, and support controls.",
+      },
+      {
+        src: "/projects/sss-dashboard/dark-mode.png",
+        title: "Desktop Dark Mode",
+        description:
+          "Dark-mode desktop experience with the member profile interface layered over the dashboard.",
+      },
+    ],
+  },
+
+  {
     title: "JM Digital",
     category: "Business Website",
     description:
@@ -240,6 +338,11 @@ export default function Projects() {
 
   const [selectedScreenshot, setSelectedScreenshot] =
     useState<Screenshot | null>(null);
+
+  const {
+    projectsMode,
+    activeProjectNumber,
+  } = useProjectTelemetry();
 
   function toggleGallery(projectTitle: string) {
     setExpandedProject((current) =>
@@ -335,16 +438,30 @@ export default function Projects() {
           <div className="mt-16 grid gap-6 lg:mt-20 lg:grid-cols-2">
             {projects.map(
               (project, index) => {
-                const isSmartSort =
-                  project.title === "SmartSort";
+                const hasExpandableGallery =
+                  project.expandableGallery === true;
 
                 const isGalleryExpanded =
                   expandedProject ===
                   project.title;
 
+                const projectNumber =
+                  String(index + 1).padStart(2, "0");
+
+                const isActive =
+                  projectsMode &&
+                  activeProjectNumber === projectNumber;
+
                 return (
                   <motion.div
                     key={project.title}
+                    data-cyber-project="true"
+                    data-project-number={projectNumber}
+                    data-project-title={project.title}
+                    data-project-category={project.category}
+                    data-project-status={
+                      project.status ?? "Indexed"
+                    }
                     initial={{
                       opacity: 0,
                       y: 30,
@@ -361,13 +478,34 @@ export default function Projects() {
                       duration: 0.6,
                       delay: index * 0.07,
                     }}
-                    className={
-                      project.featured ||
-                      isSmartSort
-                        ? "lg:col-span-2"
-                        : ""
-                    }
+                    className={`
+                      group/project
+                      relative
+                      ${
+                        project.featured ||
+                        hasExpandableGallery
+                          ? "lg:col-span-2"
+                          : ""
+                      }
+                    `}
                   >
+                    <CyberProjectFrame
+                      number={projectNumber}
+                      active={isActive}
+                    />
+
+                    <motion.div
+                      animate={
+                        isActive
+                          ? { scale: 1.006, y: -2 }
+                          : { scale: 1, y: 0 }
+                      }
+                      transition={{
+                        duration: 0.45,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="relative z-10 h-full"
+                    >
                     <GlassCard
                       className="
                         h-full
@@ -381,8 +519,8 @@ export default function Projects() {
                         <FeaturedKivora
                           project={project}
                         />
-                      ) : isSmartSort ? (
-                        <SmartSortProject
+                      ) : hasExpandableGallery ? (
+                        <ShowcaseProject
                           project={project}
                           expanded={
                             isGalleryExpanded
@@ -403,6 +541,7 @@ export default function Projects() {
                         />
                       )}
                     </GlassCard>
+                    </motion.div>
                   </motion.div>
                 );
               }
@@ -864,10 +1003,10 @@ function FeaturedKivora({
 }
 
 /* =========================================================
-   SMARTSORT
+   EXPANDABLE SHOWCASE PROJECT
 ========================================================= */
 
-function SmartSortProject({
+function ShowcaseProject({
   project,
   expanded,
   onToggle,
@@ -983,6 +1122,19 @@ function SmartSortProject({
                   />
                 }
                 primary
+              />
+            )}
+
+            {project.live && (
+              <ProjectLink
+                href={project.live}
+                label="Live Demo"
+                icon={
+                  <ExternalLink
+                    size={16}
+                  />
+                }
+                primary={!project.github}
               />
             )}
 
@@ -1108,7 +1260,7 @@ function SmartSortProject({
                     text-white
                   "
                 >
-                  SmartSort Overview
+                  {project.title}
                 </p>
 
                 <p
@@ -1201,8 +1353,7 @@ function SmartSortProject({
                         text-white
                       "
                     >
-                      SmartSort
-                      Documentation
+                      {project.title} Documentation
                     </p>
 
                     <p
@@ -1676,7 +1827,7 @@ function ProjectLink({
 }: {
   href: string;
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   primary?: boolean;
 }) {
   return (
@@ -1764,5 +1915,161 @@ function PhoneScreenshot({
         "
       />
     </motion.div>
+  );
+}
+
+/* =========================================================
+   CYBER PROJECT TELEMETRY FRAME
+========================================================= */
+
+type CyberCornerPosition =
+  | "top-left"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-right";
+
+function CyberProjectFrame({
+  number,
+  active,
+}: {
+  number: string;
+  active: boolean;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -inset-[5px] z-20"
+    >
+      <div
+        className={`
+          absolute inset-0 rounded-[28px]
+          transition-all duration-700
+          ${
+            active
+              ? "opacity-100 shadow-[0_0_45px_rgba(52,211,153,0.08)]"
+              : "opacity-0"
+          }
+        `}
+      />
+
+      <div
+        className={`
+          absolute -top-3 left-5 flex items-center gap-2
+          font-mono text-[7px] uppercase tracking-[0.18em]
+          transition-all duration-500
+          ${
+            active
+              ? "translate-y-0 opacity-100 text-emerald-300/70"
+              : "translate-y-1 opacity-0"
+          }
+        `}
+      >
+        <span className="h-1 w-1 rounded-full bg-emerald-400 shadow-[0_0_7px_rgba(52,211,153,0.9)]" />
+        PRJ_{number}
+        <span className="text-white/15">//</span>
+        ACTIVE
+      </div>
+
+      <CyberCorner position="top-left" active={active} />
+      <CyberCorner position="top-right" active={active} />
+      <CyberCorner position="bottom-left" active={active} />
+      <CyberCorner position="bottom-right" active={active} />
+
+      <div
+        className={`
+          absolute inset-x-3 top-0 h-full overflow-hidden rounded-[24px]
+          transition-opacity duration-500
+          ${active ? "opacity-100" : "opacity-0"}
+        `}
+      >
+        <div className="cyber-project-scanner absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/45 to-transparent shadow-[0_0_18px_rgba(52,211,153,0.3)]" />
+        <div className="cyber-project-scanner-glow absolute left-[10%] right-[10%] top-0 h-12 bg-gradient-to-b from-emerald-400/[0.045] to-transparent" />
+      </div>
+
+      <div
+        className={`
+          absolute -bottom-3 right-6 font-mono text-[6px]
+          uppercase tracking-[0.15em] transition-all duration-500
+          ${active ? "opacity-60 text-emerald-400" : "opacity-0"}
+        `}
+      >
+        LINK::PRJ_{number} // SCANNING
+      </div>
+
+      <style>{`
+        .cyber-project-scanner,
+        .cyber-project-scanner-glow {
+          animation: cyberProjectScan 3.6s ease-in-out infinite;
+        }
+
+        @keyframes cyberProjectScan {
+          0% { top: 0%; opacity: 0; }
+          8% { opacity: 1; }
+          92% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .cyber-project-scanner,
+          .cyber-project-scanner-glow {
+            animation: none !important;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function CyberCorner({
+  position,
+  active,
+}: {
+  position: CyberCornerPosition;
+  active: boolean;
+}) {
+  const positions: Record<CyberCornerPosition, string> = {
+    "top-left": "left-0 top-0",
+    "top-right": "right-0 top-0",
+    "bottom-left": "bottom-0 left-0",
+    "bottom-right": "bottom-0 right-0",
+  };
+
+  const horizontal: Record<CyberCornerPosition, string> = {
+    "top-left": "left-0 top-0",
+    "top-right": "right-0 top-0",
+    "bottom-left": "bottom-0 left-0",
+    "bottom-right": "bottom-0 right-0",
+  };
+
+  const vertical: Record<CyberCornerPosition, string> = {
+    "top-left": "left-0 top-0",
+    "top-right": "right-0 top-0",
+    "bottom-left": "bottom-0 left-0",
+    "bottom-right": "bottom-0 right-0",
+  };
+
+  return (
+    <div
+      className={`
+        absolute h-7 w-7 transition-all duration-500
+        ${positions[position]}
+        ${active ? "scale-100 opacity-100" : "scale-75 opacity-0"}
+      `}
+    >
+      <span
+        className={`
+          absolute h-px w-5 bg-emerald-300/65
+          shadow-[0_0_7px_rgba(52,211,153,0.35)]
+          ${horizontal[position]}
+        `}
+      />
+      <span
+        className={`
+          absolute h-5 w-px bg-emerald-300/65
+          shadow-[0_0_7px_rgba(52,211,153,0.35)]
+          ${vertical[position]}
+        `}
+      />
+    </div>
   );
 }

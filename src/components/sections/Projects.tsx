@@ -34,7 +34,8 @@ type ProjectStatus =
   | "In Development"
   | "Active Development"
   | "Completed"
-  | "Prototype";
+  | "Prototype"
+  | "Live";
 
 type Screenshot = {
   src: string;
@@ -101,6 +102,62 @@ const projects: Project[] = [
       "Balance privacy controls",
       "Theme-aware interface",
       "Local SQLite persistence",
+    ],
+  },
+
+  {
+    title: "The Filipino Critic",
+    category: "Digital Publishing Platform",
+    description:
+      "A responsive editorial and digital publishing platform built for long-form commentary, public-issue coverage, and structured story publishing. The project pairs a polished reader-facing experience with an administration workspace for managing articles, categories, media, publication status, featured content, trending placement, and editorial metadata.",
+    technologies: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Responsive Design",
+      "Admin Dashboard",
+      "Content Management",
+      "Vercel",
+    ],
+    status: "Live",
+    live: "https://the-filipino-critic.vercel.app/",
+    expandableGallery: true,
+    features: [
+      "Responsive editorial homepage",
+      "Latest-stories content feed",
+      "Article publishing workflow",
+      "Editorial administration dashboard",
+      "Featured and trending story controls",
+      "Category and media management",
+      "SEO and editorial metadata controls",
+      "Desktop and mobile-ready interface",
+    ],
+    screenshots: [
+      {
+        src: "/projects/the-filipino-critic/home.webp",
+        title: "Editorial Home",
+        description:
+          "Reader-facing landing experience with editorial navigation, hero messaging, and publication branding.",
+      },
+      {
+        src: "/projects/the-filipino-critic/latest-stories.webp",
+        title: "Latest Stories",
+        description:
+          "Responsive story grid for browsing recently published commentary and issue-focused articles.",
+      },
+      {
+        src: "/projects/the-filipino-critic/admin-dashboard.webp",
+        title: "Editorial Dashboard",
+        description:
+          "Administration workspace for monitoring publication status, recent posts, featured stories, and trending content.",
+      },
+      {
+        src: "/projects/the-filipino-critic/article-editor.webp",
+        title: "Article Editor",
+        description:
+          "Publishing interface for editing article details, content, metadata, placement, imagery, and publication state.",
+      },
     ],
   },
 

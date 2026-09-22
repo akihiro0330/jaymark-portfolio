@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa6";
 
 import Button from "../ui/Button";
+import InteractiveHeroBackground from "../effects/InteractiveHeroBackground";
 
 type HeroProps = {
   introReady?: boolean;
@@ -59,8 +60,12 @@ export default function Hero({
         lg:pt-32
       "
     >
+      <InteractiveHeroBackground />
+
       <div
         className="
+          relative
+          z-10
           mx-auto
           w-full
           min-w-0
@@ -79,10 +84,10 @@ export default function Hero({
 
             sm:gap-14
 
-            lg:grid-cols-[1.12fr_0.88fr]
+            lg:grid-cols-[0.92fr_1.08fr]
             lg:gap-12
 
-            xl:grid-cols-[1.08fr_0.92fr]
+            xl:grid-cols-[0.88fr_1.12fr]
             xl:gap-16
           "
         >
@@ -526,13 +531,7 @@ export default function Hero({
               ease: easeOut,
             }}
             className="
-              order-1
-              flex
-              min-w-0
-              justify-center
-
-              lg:order-2
-              lg:justify-end
+              hidden
             "
           >
             <div
